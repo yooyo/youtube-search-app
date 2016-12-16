@@ -1,0 +1,9 @@
+.hover-player{
+    position: fixed;
+    z-index: 999;
+    top: 10px;
+    left: 10px;
+    width: 320px;
+    height: 180px;
+    background: black;
+}
