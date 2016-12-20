@@ -2,18 +2,94 @@
   <form>  
     <div class="row">
       <div class="input-field col s10">
-        <input id="first_name" placeholder="Type something" type="text" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" class="validate" >
+        <input id="first_name" placeholder="Type something" type="text" [(ngModel)]="data.query" [ngModelOptions]="{standalone: true}" class="validate" >
         <label for="first_name"></label>
       </div>
-      <div class="input-field col s2">
-        <a class="waves-effect waves-light btn" (click)="search()">shearch</a>
+      <div class="input-field col s1">
+        <a class="waves-effect waves-dark btn" (click)="advShow = !advShow"><i class="material-icons">zoom_in</i></a>
       </div>
-      <!--<ng2-select [placeholder]="'Choose your framework'"
-                    [options]="['EmberJS', 'React', 'Vue', 'Angular2']"
-                    [(ngModel)]="framework">
-        </ng2-select>-->
+      <div class="input-field col s1">
+        <a class="waves-effect waves-light btn" (click)="search()"><i class="material-icons">search</i></a>
+      </div>
     </div>
-  </form>
+    <div class="adv-search" *ngIf="advShow">
+      <h5>Advanced search</h5>
+      <div class="row">
+        <div class="input-field col s2">
+          <material-datepicker  
+              [(date)]="data.after" 
+              placeholder="Published after">
+          </material-datepicker>
+        </div>
+        <div class="input-field col s2">
+          <material-datepicker 
+              [(date)]="data.before" 
+              placeholder="Published before">
+          </material-datepicker>
+        </div>
+        <div class="input-field col s2">
+          <ng-select
+            [options]="options.order"
+            placeholder="Order"
+            [allowClear]="false"
+            (selected)="onSelected($event)"
+            theme="default">
+          </ng-select>
+        </div>
+        <div class="input-field col s2">
+          <ng-select
+            [options]="options.vDefinition"
+            placeholder="Video definition"
+            [allowClear]="false"
+            (selected)="onSelected($event)"
+            theme="default">
+          </ng-select>
+        </div>
+        <div class="input-field col s2">
+          <ng-select
+            [options]="options.vDimension"
+            placeholder="Video dimension "
+            [allowClear]="false"
+            (selected)="onSelected($event)"
+            theme="default">
+          </ng-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s2">
+          <ng-select
+            [options]="options.vDuration"
+            placeholder="video duration "
+            [allowClear]="false"
+            (selected)="onSelected($event)"
+            theme="default">
+          </ng-select>
+        </div>
+        <div class="input-field col s2">
+          <input  id="relatedToVideoId" 
+                  placeholder="Related to video id" 
+                  type="text" 
+                  [(ngModel)]="data.relatedVideoId" 
+                  [ngModelOptions]="{standalone: true}" 
+                  class="validate" >
+          <label for="relatedToVideoId"></label>
+        </div>
+        <div class="input-field col s2">
+          <ng-select
+            [options]="options.safeSearch"
+            placeholder="Safe search "
+            [allowClear]="false"
+            (selected)="onSelected($event)"
+            theme="default">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </form>   
+    <!--videoSyndicated = true-->
+    <!--location & locationRadius component 'TODO' -->
+    <!--videoEmbeddable = true-->
+  
   <table class="highlight" *ngIf="results">
     <thead>
       <tr>

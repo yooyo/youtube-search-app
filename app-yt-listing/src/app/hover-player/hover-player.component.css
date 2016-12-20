@@ -3,7 +3,10 @@
     z-index: 999;
     top: 10px;
     left: 10px;
-    width: 320px;
-    height: 180px;
+    width: 640px;
+    height: 360px;
     background: black;
+}
+.btn-speed{
+    display: block
 }
