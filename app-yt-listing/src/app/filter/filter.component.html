@@ -1,96 +1,105 @@
-<div class="container">
-  <form>  
+<div class="container"> 
+  <div class="spacer"></div>
     <div class="row">
-      <div class="input-field col s10">
-        <input id="first_name" placeholder="Type something" type="text" [(ngModel)]="data.query" [ngModelOptions]="{standalone: true}" class="validate" >
-        <label for="first_name"></label>
-      </div>
-      <div class="input-field col s1">
-        <a class="waves-effect waves-dark btn" (click)="advShow = !advShow"><i class="material-icons">zoom_in</i></a>
-      </div>
-      <div class="input-field col s1">
-        <a class="waves-effect waves-light btn" (click)="search()"><i class="material-icons">search</i></a>
+      <div class="input-group col-md-11">
+        <input  class="form-control" 
+                placeholder="Type something" 
+                type="text" [(ngModel)]="data.query" 
+                [ngModelOptions]="{standalone: true}">
+        <div class="input-group-addon" (click)="advShow = !advShow"><i class="fa fa-filter"></i></div>
+        <div class="input-group-addon" (click)="search()"><i class="fa fa-search"></i></div>
       </div>
     </div>
+    <hr class="my-1" *ngIf="advShow">
     <div class="adv-search" *ngIf="advShow">
       <h5>Advanced search</h5>
       <div class="row">
-        <div class="input-field col s2">
-          <material-datepicker  
-              [(date)]="data.after" 
-              placeholder="Published after">
-          </material-datepicker>
+        <div class="col-md-4">
+          <div class="jumbotron padding-20">
+            <div class="input-group">
+              <input class="form-control" placeholder="Published after" name="dp1" [(ngModel)]="data.after" ngbDatepicker #da="ngbDatepicker">
+              <div class="input-group-addon" (click)="da.toggle()" >
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </div>
+            </div>
+             <hr class="my-1">
+            <div class="input-group">
+              <input class="form-control" placeholder="Published before" name="dp2" [(ngModel)]="data.before" ngbDatepicker #db="ngbDatepicker">
+              <div class="input-group-addon" (click)="db.toggle()" >
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="input-field col s2">
-          <material-datepicker 
-              [(date)]="data.before" 
-              placeholder="Published before">
-          </material-datepicker>
+        <div class="col-md-2">
+          <div class="col-form-label padding-left">Order</div>
+          <div class="spacer"></div>
+          <div class="col-form-label padding-left">Video definition</div>
+          <div class="spacer"></div>
+          <div class="col-form-label padding-left">Video dimension</div>
         </div>
-        <div class="input-field col s2">
-          <ng-select
-            [options]="options.order"
-            placeholder="Order"
-            [allowClear]="false"
-            (selected)="onSelected($event)"
-            theme="default">
-          </ng-select>
+        <div class="col-md-2 right-border">
+          <div ngbDropdown class="d-block">
+            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.order || 'Any'}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <button class="dropdown-item" (click)="onSelected('', 'order')">--Any--</button>
+              <button class="dropdown-item" (click)="onSelected(option.value, 'order')" *ngFor="let option of options.order">{{option.label}}</button>
+            </div>
+          </div>
+          <div class="spacer"></div>
+           <div ngbDropdown class="d-block">
+            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDefinition || 'Any'}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <button class="dropdown-item" (click)="onSelected('', 'vDefinition')">--Any--</button>
+              <button class="dropdown-item" (click)="onSelected(option.value, 'vDefinition')" *ngFor="let option of options.vDefinition">{{option.label}}</button>
+            </div>
+          </div>
+          <div class="spacer"></div>
+           <div ngbDropdown class="d-block">
+            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDimension || 'Any'}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <button class="dropdown-item" (click)="onSelected('', 'vDimension')">--Any--</button>
+              <button class="dropdown-item" (click)="onSelected(option.value, 'vDimension')" *ngFor="let option of options.vDimension">{{option.label}}</button>
+            </div>
+          </div>
         </div>
-        <div class="input-field col s2">
-          <ng-select
-            [options]="options.vDefinition"
-            placeholder="Video definition"
-            [allowClear]="false"
-            (selected)="onSelected($event)"
-            theme="default">
-          </ng-select>
+         <div class="col-md-2">
+          <div class="col-form-label padding-left">Video duration</div>
+          <div class="spacer"></div>
+          <div class="col-form-label padding-left">Related to video id</div>
+          <div class="spacer"></div>
+          <div class="col-form-label padding-left">Safe search</div>
         </div>
-        <div class="input-field col s2">
-          <ng-select
-            [options]="options.vDimension"
-            placeholder="Video dimension "
-            [allowClear]="false"
-            (selected)="onSelected($event)"
-            theme="default">
-          </ng-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s2">
-          <ng-select
-            [options]="options.vDuration"
-            placeholder="video duration "
-            [allowClear]="false"
-            (selected)="onSelected($event)"
-            theme="default">
-          </ng-select>
-        </div>
-        <div class="input-field col s2">
-          <input  id="relatedToVideoId" 
-                  placeholder="Related to video id" 
+        <div class="col-md-2">
+          <div ngbDropdown class="d-block">
+            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
+              <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <input  class="form-control" 
+                  placeholder="Any" 
                   type="text" 
                   [(ngModel)]="data.relatedVideoId" 
-                  [ngModelOptions]="{standalone: true}" 
-                  class="validate" >
-          <label for="relatedToVideoId"></label>
-        </div>
-        <div class="input-field col s2">
-          <ng-select
-            [options]="options.safeSearch"
-            placeholder="Safe search "
-            [allowClear]="false"
-            (selected)="onSelected($event)"
-            theme="default">
-          </ng-select>
+                  [ngModelOptions]="{standalone: true}">
+          <div class="spacer"></div>
+          <div ngbDropdown class="d-block">
+            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.safeSearch || 'Any'}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <button class="dropdown-item" (click)="onSelected('', 'safeSearch')">--Any--</button>
+              <button class="dropdown-item" (click)="onSelected(option.value, 'safeSearch')" *ngFor="let option of options.safeSearch">{{option.label}}</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </form>   
+    </div> 
     <!--videoSyndicated = true-->
     <!--location & locationRadius component 'TODO' -->
     <!--videoEmbeddable = true-->
   
-  <table class="highlight" *ngIf="results">
+  <table class="table table-striped" *ngIf="results">
     <thead>
       <tr>
           <th>Title</th>

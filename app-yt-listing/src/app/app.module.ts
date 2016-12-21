@@ -14,6 +14,7 @@ import { HoverPlayerComponent } from './hover-player/hover-player.component';
 import { SafePipe } from './safe.pipe';
 import { DatePipe } from '@angular/common';
 import { AdvSearchComponent } from './adv-search/adv-search.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AdvSearchComponent } from './adv-search/adv-search.component';
     HttpModule,
     YoutubePlayerModule,
     DatepickerModule,
-    SelectModule
+    SelectModule,
+    NgbModule.forRoot()
   ],
   providers: [ YoutubeServiceService, DatePipe ],
   bootstrap: [ AppComponent ] 

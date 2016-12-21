@@ -18,7 +18,14 @@ export class FilterComponent implements OnInit {
       query: "",
       after: "",
       before: "",
-      relatedVideoId: ""
+      relatedVideoId: "",
+      order:"rating",
+      vDefinition:"any",
+      vDimension:"any",
+      vDuration:'any',
+      safeSearch:"none",
+      videoSyndicated:true,
+      videoEmbeddable:true
     };
   public options:Object = {
       order: [{
@@ -51,34 +58,34 @@ export class FilterComponent implements OnInit {
             label: 'standard'
         }],
       vDimension: [{
-            value: '2d',
-            label: '2d'
+            value: 'any',
+            label: 'any'
         },{
             value: '3d',
             label: '3d'
         },{
-            value: 'any',
-            label: 'any'
+            value: '2d',
+            label: '2d'
         }],
       vDuration: [{
             value: 'any',
-            label: 'any'
+            label: 'Any'
         },{
             value: 'long',
-            label: 'long'
+            label: 'Long (longer than 20 minuts)'
         },{
             value: 'medium',
-            label: 'medium'
+            label: 'Medium (4-20 minutes)'
         },{
             value: 'short',
-            label: 'short'
+            label: 'Short (less than 4 minutes)'
         }],
       safeSearch: [{
-            value: 'moderate',
-            label: 'moderate'
-        },{
             value: 'none',
             label: 'none'
+        },{
+            value: 'moderate',
+            label: 'moderate'
         },{
             value: 'strict',
             label: 'strict'
@@ -90,18 +97,26 @@ export class FilterComponent implements OnInit {
     
   }
   public search() {
-    console.log(this.data);
-   /*if(this.data.query && this.date){
-    this.youtube.search(this.data.query, this.datePipe.transform(this.date, 'yyyy-MM-dd')  + "T00:00:00Z","viewCount")
+   if(this.data.query && this.data.after && this.data.before){
+    this.youtube.search(this.data.query, 
+                        this.getDate(this.data.after),
+                        this.getDate(this.data.before), 
+                        this.data.relatedVideoId,
+                        this.data.order,
+                        this.data.vDefinition,
+                        this.data.vDimension,
+                        this.data.vDuration,
+                        this.data.safeSearch)
     .subscribe( results => this.results = results.items , error =>  this.error = <any>error);
-    //.subscribe( results => console.log(results) , error =>  this.error = <any>error);
-    } */
+    }
   }
-  public checked(e, videoObj){
-    if(e.target.checked) console.log( videoObj );
+  public getDate(obj){
+    if(obj!= null && obj!= undefined){
+      return obj.year +"-"+ obj.month +"-"+ obj.day +"T00:00:00Z";
+    }
   }
-  public onSelected(item){
-    this.data[item.value] = item.value;
+  public onSelected(value, ref){
+    this.data[ref] = value;
     console.log(this.data);
   }
 
