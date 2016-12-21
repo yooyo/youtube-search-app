@@ -13,6 +13,7 @@ export class FilterComponent implements OnInit {
   public date:string;
   private error:string;
   public advShow:boolean = false;
+  public showSettings:boolean = false;
 
   public data= {
       query: "",
@@ -97,7 +98,7 @@ export class FilterComponent implements OnInit {
     
   }
   public search() {
-   if(this.data.query && this.data.after && this.data.before){
+   if(this.data.query){
     this.youtube.search(this.data.query, 
                         this.getDate(this.data.after),
                         this.getDate(this.data.before), 
@@ -111,8 +112,11 @@ export class FilterComponent implements OnInit {
     }
   }
   public getDate(obj){
-    if(obj!= null && obj!= undefined){
+      console.log(obj);
+    if(obj && obj!= null && obj!= undefined){
       return obj.year +"-"+ obj.month +"-"+ obj.day +"T00:00:00Z";
+    }else{
+        return '';
     }
   }
   public onSelected(value, ref){

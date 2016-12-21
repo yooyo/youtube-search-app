@@ -1,104 +1,145 @@
 <div class="container"> 
   <div class="spacer"></div>
+  <div class="row">
+    <div class="input-group col-md-11">
+      <input  class="form-control" 
+              placeholder="Type something" 
+              type="text" [(ngModel)]="data.query" 
+              [ngModelOptions]="{standalone: true}">
+      <div class="input-group-addon" (click)="advShow = !advShow"><i class="fa fa-filter"></i></div>
+      <div class="input-group-addon" (click)="showSettings = !showSettings"><i class="fa fa-cog"></i></div>
+      <div class="input-group-addon" (click)="search()"><i class="fa fa-search"></i></div>
+    </div>
+  </div>
+  <!--advanced search-->
+  <hr class="my-1" *ngIf="advShow">
+  <div class="adv-search" *ngIf="advShow">
+    <h5>Advanced search</h5>
     <div class="row">
-      <div class="input-group col-md-11">
+      <div class="col-md-4">
+        <div class="jumbotron padding-20">
+          <div class="input-group">
+            <input class="form-control" placeholder="Published before" name="dp2" [(ngModel)]="data.before" ngbDatepicker #db="ngbDatepicker">
+            <div class="input-group-addon" (click)="db.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </div>
+          </div>
+          <hr class="my-1">
+          <div class="input-group">
+            <input class="form-control" placeholder="Published after" name="dp1" [(ngModel)]="data.after" ngbDatepicker #da="ngbDatepicker">
+            <div class="input-group-addon" (click)="da.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="col-form-label padding-left">Order</div>
+        <div class="spacer"></div>
+        <div class="col-form-label padding-left">Video definition</div>
+        <div class="spacer"></div>
+        <div class="col-form-label padding-left">Video dimension</div>
+      </div>
+      <div class="col-md-2 right-border">
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.order || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'order')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'order')" *ngFor="let option of options.order">{{option.label}}</button>
+          </div>
+        </div>
+        <div class="spacer"></div>
+          <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDefinition || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDefinition')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDefinition')" *ngFor="let option of options.vDefinition">{{option.label}}</button>
+          </div>
+        </div>
+        <div class="spacer"></div>
+          <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDimension || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDimension')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDimension')" *ngFor="let option of options.vDimension">{{option.label}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="col-form-label padding-left">Video duration</div>
+        <div class="spacer"></div>
+        <div class="col-form-label padding-left">Related to video id</div>
+        <div class="spacer"></div>
+        <div class="col-form-label padding-left">Safe search</div>
+      </div>
+      <div class="col-md-2">
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
+          </div>
+        </div>
+        <div class="spacer"></div>
         <input  class="form-control" 
-                placeholder="Type something" 
-                type="text" [(ngModel)]="data.query" 
+                placeholder="Any" 
+                type="text" 
+                [(ngModel)]="data.relatedVideoId" 
                 [ngModelOptions]="{standalone: true}">
-        <div class="input-group-addon" (click)="advShow = !advShow"><i class="fa fa-filter"></i></div>
-        <div class="input-group-addon" (click)="search()"><i class="fa fa-search"></i></div>
+        <div class="spacer"></div>
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.safeSearch || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'safeSearch')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'safeSearch')" *ngFor="let option of options.safeSearch">{{option.label}}</button>
+          </div>
+        </div>
       </div>
     </div>
-    <hr class="my-1" *ngIf="advShow">
-    <div class="adv-search" *ngIf="advShow">
-      <h5>Advanced search</h5>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="jumbotron padding-20">
-            <div class="input-group">
-              <input class="form-control" placeholder="Published after" name="dp1" [(ngModel)]="data.after" ngbDatepicker #da="ngbDatepicker">
-              <div class="input-group-addon" (click)="da.toggle()" >
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-              </div>
-            </div>
-             <hr class="my-1">
-            <div class="input-group">
-              <input class="form-control" placeholder="Published before" name="dp2" [(ngModel)]="data.before" ngbDatepicker #db="ngbDatepicker">
-              <div class="input-group-addon" (click)="db.toggle()" >
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="col-form-label padding-left">Order</div>
-          <div class="spacer"></div>
-          <div class="col-form-label padding-left">Video definition</div>
-          <div class="spacer"></div>
-          <div class="col-form-label padding-left">Video dimension</div>
-        </div>
-        <div class="col-md-2 right-border">
-          <div ngbDropdown class="d-block">
-            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.order || 'Any'}}</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <button class="dropdown-item" (click)="onSelected('', 'order')">--Any--</button>
-              <button class="dropdown-item" (click)="onSelected(option.value, 'order')" *ngFor="let option of options.order">{{option.label}}</button>
-            </div>
-          </div>
-          <div class="spacer"></div>
-           <div ngbDropdown class="d-block">
-            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDefinition || 'Any'}}</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <button class="dropdown-item" (click)="onSelected('', 'vDefinition')">--Any--</button>
-              <button class="dropdown-item" (click)="onSelected(option.value, 'vDefinition')" *ngFor="let option of options.vDefinition">{{option.label}}</button>
-            </div>
-          </div>
-          <div class="spacer"></div>
-           <div ngbDropdown class="d-block">
-            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDimension || 'Any'}}</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <button class="dropdown-item" (click)="onSelected('', 'vDimension')">--Any--</button>
-              <button class="dropdown-item" (click)="onSelected(option.value, 'vDimension')" *ngFor="let option of options.vDimension">{{option.label}}</button>
-            </div>
-          </div>
-        </div>
-         <div class="col-md-2">
-          <div class="col-form-label padding-left">Video duration</div>
-          <div class="spacer"></div>
-          <div class="col-form-label padding-left">Related to video id</div>
-          <div class="spacer"></div>
-          <div class="col-form-label padding-left">Safe search</div>
-        </div>
-        <div class="col-md-2">
-          <div ngbDropdown class="d-block">
-            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
-              <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
-            </div>
-          </div>
-          <div class="spacer"></div>
-          <input  class="form-control" 
-                  placeholder="Any" 
-                  type="text" 
-                  [(ngModel)]="data.relatedVideoId" 
-                  [ngModelOptions]="{standalone: true}">
-          <div class="spacer"></div>
-          <div ngbDropdown class="d-block">
-            <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.safeSearch || 'Any'}}</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <button class="dropdown-item" (click)="onSelected('', 'safeSearch')">--Any--</button>
-              <button class="dropdown-item" (click)="onSelected(option.value, 'safeSearch')" *ngFor="let option of options.safeSearch">{{option.label}}</button>
-            </div>
+  </div> 
+  <!--settings-->
+  <hr class="my-1" *ngIf="showSettings">
+  <div class="adv-search" *ngIf="showSettings">
+    <h5>Settings</h5>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="col-form-label padding-left">Video duration</div>
+      </div>
+      <div class="col-md-2">
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
           </div>
         </div>
       </div>
-    </div> 
-    <!--videoSyndicated = true-->
-    <!--location & locationRadius component 'TODO' -->
-    <!--videoEmbeddable = true-->
-  
+      <div class="col-md-2">
+        <div class="col-form-label padding-left">Video duration</div>
+      </div>
+      <div class="col-md-2">
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="col-form-label padding-left">Video duration</div>
+      </div>
+      <div class="col-md-2">
+        <div ngbDropdown class="d-block">
+          <button class="btn btn-secondary " id="dropdownMenu1" ngbDropdownToggle>{{data.vDuration || 'Any'}}</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <button class="dropdown-item" (click)="onSelected('', 'vDuration')">--Any--</button>
+            <button class="dropdown-item" (click)="onSelected(option.value, 'vDuration')" *ngFor="let option of options.vDuration">{{option.label}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
   <table class="table table-striped" *ngIf="results">
     <thead>
       <tr>
