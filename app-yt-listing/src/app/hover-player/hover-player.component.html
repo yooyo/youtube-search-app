@@ -1,7 +1,16 @@
 <div (mouseover)="ShowHoverPlayer()" (mouseout)="hideHoverPlayer()">
+  <div class="btn-speed" (click)="speedUp()"> Speed up</div>
   <img [src]="src" alt="...">
 </div>
 <div *ngIf="hidePlayer" class="hover-player">
-  <iframe width="320" height="180" frameborder="0" [src]="video_source | safe">
-  </iframe>
+  <!-- <iframe width="320" height="180" frameborder="0" [src]="video_source | safe">
+  </iframe> -->
+  <youtube-player 
+            [videoId]="video_id" 
+            [width]="640" 
+            [height]="360" 
+            (ready)="savePlayer($event)"
+            (change)="onStateChange($event)"
+          >
+          </youtube-player>
 </div>

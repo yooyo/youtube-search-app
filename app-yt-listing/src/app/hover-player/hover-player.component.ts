@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hover-player',
@@ -12,14 +11,14 @@ export class HoverPlayerComponent implements OnInit {
   private video_base_url:String = "https://www.youtube.com/embed/";
   private video_options:String = "?autoplay=1&rel=0&vq=small&showinfo=0&controls=0";
   public video_source ;
+  private player;
+  private ytEvent;
   @Input() src;
   @Input() video_id;
   
   constructor() {}
-  
-  ngOnInit() {
-    //console.log(this.src + this.video_id);
-  }
+  ngOnInit() {}
+
   public ShowHoverPlayer(){
     this.hidePlayer = true;
     this.video_source = this.video_base_url + this.video_id + this.video_options ;
@@ -28,5 +27,30 @@ export class HoverPlayerComponent implements OnInit {
     this.hidePlayer = false;
     this.video_source = this.video_base_url + this.video_id + this.video_options ;
   }
-
+  public onStateChange(event) {
+    this.ytEvent = event.data;
+  }
+  public savePlayer(player) {
+    this.player = player;
+    console.log(this.player);
+  }
+  public speedUp(){
+    if(this.player){
+      this.player.setPlaybackRate(2);
+    }
+  }
+  public backToNormalSpeed(){
+    if(this.player){
+      this.player.setPlaybackRate(1);
+    }
+  }
+  public getTime(){
+    this.player.getCurrentTime()
+  }
+  public playVideo() {
+    this.player.playVideo();
+  }
+  public pauseVideo() {
+    this.player.pauseVideo();
+  }
 }
